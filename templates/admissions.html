@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Online Admission - Little Steps International Pre School{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with badge="Admissions Open 2026-27" title="Join the Little Steps Family" description="Embark on a joyful learning journey with us. Submit your child's application below and our admissions team will guide you through the next steps." %}
+
+<section class="section admission-form-section">
+    <div class="container container-sm">
+        <div class="admission-shell glass-panel">
+            <form action="{% url 'admissions' %}" method="POST" class="modern-form">
+                {% csrf_token %}
+
+                <div class="form-section-title">
+                    <span class="form-section-icon form-section-icon--sage"><i class="fa-solid fa-child"></i></span>
+                    <h3 class="form-section-title__text">Child's Information</h3>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="child_name">Child's Full Name *</label>
+                        <input type="text" name="child_name" id="child_name" required placeholder="Enter child's full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_birth">Date of Birth *</label>
+                        <input type="date" name="date_of_birth" id="date_of_birth" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="program">Program Applying For *</label>
+                    <select name="program" id="program" required>
+                        <option value="" disabled selected>Select a Program</option>
+                        {% for value, label in programs %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-hint">Not sure? Choose your best guess; we can discuss this later.</small>
+                </div>
+
+                <div class="form-section-title">
+                    <span class="form-section-icon form-section-icon--mustard"><i class="fa-solid fa-person-breastfeeding"></i></span>
+                    <h3 class="form-section-title__text">Parent's Information</h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="parent_name">Parent/Guardian Full Name *</label>
+                    <input type="text" name="parent_name" id="parent_name" required placeholder="Enter parent/guardian full name">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" name="email" id="email" required placeholder="example@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" name="phone" id="phone" required placeholder="+91 XXXXX XXXXX">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Additional Questions or Messages</label>
+                    <textarea name="message" id="message" placeholder="Any specific needs or questions you'd like to ask us?"></textarea>
+                </div>
+
+                <div class="form-submit-bar">
+                    <button type="submit" class="btn btn-secondary btn-lg">
+                        Submit Application <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                  <br>  <br><p class="form-trust-note">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i> Your data is secure and will only be used for admission purposes.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

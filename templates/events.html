@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Events & Activities - Little Steps{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with variant="sage" title="Events & Activities Calendar" description="Stay updated with our upcoming school events and activities." %}
+
+<section class="section bg-light">
+    <div class="container">
+        <h3 class="events-subheading">Upcoming Events</h3>
+        <div class="programs-grid">
+            {% for event in upcoming_events %}
+            <div class="feature-box glass-panel">
+                <h4 class="events-date-accent">{{ event.date|date:"F j, Y" }}</h4>
+                <h3>{{ event.title }}</h3>
+                {% if event.time %}
+                <p><strong>Time:</strong> {{ event.time|time:"g:i A" }}</p>
+                {% endif %}
+                <p>{{ event.description }}</p>
+                {% if event.image %}
+                <img src="{{ event.image.url }}" class="events-card-img" alt="{{ event.title }}">
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="events-empty">No upcoming events currently scheduled.</p>
+            {% endfor %}
+        </div>
+
+        <h3 class="events-subheading events-subheading--spaced">Past Events</h3>
+        <div class="programs-grid">
+            {% for event in past_events %}
+            <div class="feature-box glass-panel events-card--past">
+                <h4 class="events-date-past">{{ event.date|date:"F j, Y" }}</h4>
+                <h3>{{ event.title }}</h3>
+                <p>{{ event.description }}</p>
+            </div>
+            {% empty %}
+            <p class="events-empty">No past events to show.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,344 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - Little Steps{% endblock %}
+
+{% block content %}
+<section class="section bg-light page-hero-spaced">
+    <div class="container about-container">
+        <div class="about-text scroll-reveal">
+            <span class="section-badge">About Little Steps</span>
+            <h2 class="section-title">A Secure, Loving Atmosphere</h2>
+            <p class="section-desc" style="font-size: 1.1rem; line-height: 1.8;">At Little Steps International Pre
+                School, we believe every child is unique. Our experienced teachers foster each child’s natural curiosity
+                in a fun, stress-free environment.</p>
+            <p class="section-desc" style="font-size: 1.1rem; line-height: 1.8;">Our vision is to be a global leader in
+                early childhood education. We offer a balanced blend of academics, creativity, and practical play,
+                ensuring that learning is always a joy while focusing on strong moral values and discipline.</p>
+            <div class="about-features" style="margin-top: 30px;">
+                <div class="feature-item">
+                    <i class="fa-solid fa-check-circle text-accent"></i> Stress-free Learning
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-check-circle text-accent"></i> Global Teaching Methods
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-check-circle text-accent"></i> Qualified Teachers
+                </div>
+            </div>
+        </div>
+        <div class="about-image-wrapper scroll-reveal" style="transition-delay: 200ms;">
+            <div class="glass-card image-card">
+                <img src="{% static 'img/about.png' %}" alt="Smiling preschool teacher with kids" class="about-img">
+                <div class="floating-badge badge-1">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Caring Environment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-header center">
+            <h2 class="section-title">Meet Our Teachers</h2>
+            <p class="section-desc">Our dedicated team is here to guide and inspire your little ones every single day.
+            </p>
+        </div>
+
+        <div class="programs-grid teachers-grid">
+            {% for teacher in teachers %}
+            <div class="glass-card teacher-card scroll-reveal">
+                {% if teacher.image %}
+                <img src="{{ teacher.image.url }}" alt="{{ teacher.name }}" class="teacher-card__img">
+                {% endif %}
+                <h3 class="teacher-card__name">{{ teacher.name }}</h3>
+                <p class="teacher-card__role">{{ teacher.designation }}</p>
+                <p class="teacher-card__bio">{{ teacher.bio|linebreaksbr }}</p>
+            </div>
+            {% empty %}
+            <p class="teachers-empty">We'll be introducing our amazing teachers soon!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Google Reviews Grid -->
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge">Community Trust</span>
+            <h2 class="section-title">What Parents Say on Google <i class="fa-brands fa-google"
+                    style="color:#4285F4;"></i></h2>
+            <p class="section-desc">We are proud of our genuine 5-star Google Reviews from the Little Steps community.
+            </p>
+        </div>
+
+        <div class="reviews-grid">
+            <!-- Review 1 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #4285F4; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        K</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Khathija Begum</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; a year ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"Best school in guntur. I strongly recommend
+                    for kids to join in little steps. They take care on each child with good education, moral ethics
+                    relations. My kid total changed in all aspects. He loves grandparents and parents..."</p>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #EA4335; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        H</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Harika Reddy</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; Local Guide · a year ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"The best school in Guntur that every parent
+                    aspires to join their children. Every single concern will be resolved on spot. Every kid is taken
+                    special care about everything."</p>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #34A853; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        R</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Rashidasyed Begum</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; a year ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"This is the best school for all kids. My
+                    grandson enjoys the school. The staff and management are friendly to our kids, they takes lot of
+                    care on them in all aspects like moral ethics, education and giving communication skill..."</p>
+            </div>
+
+            <!-- Review 4 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #FBBC05; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        S</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Sabeera Mahaboob</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 2 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"Its best school in Guntur. I full
+                    satisfaction with this little steps, they are giving good education, activities, games, moral ethics
+                    etc. I strongly recommend for play school and higher standards."</p>
+            </div>
+
+            <!-- Review 5 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #8E24AA; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        T</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Thanvi</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 9 months ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"One of the best schools in guntur, kids enjoy
+                    education without any stress, good transportation, caring attenders n staff, weekly outing, cultural
+                    activities, what not kids really enjoy physically n mentally..."</p>
+            </div>
+
+            <!-- Review 6 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #0F9D58; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        V</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Vasudha Valluri</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 2 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"Healthy atmosphere , Very good management, an
+                    awesome place for the kids to grow and learn. I recommend others to join their kids here. The
+                    teachers and staff are really good and dedicated, I will always be grateful to this wonderful
+                    place."</p>
+            </div>
+
+            <!-- Review 7 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #3F51B5; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        T</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Triveni Adipudi</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; Local Guide · 2 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"My kids are studying here...Not only teaching
+                    regular curriculum but also teach Good Habits, Good behaviour and other activities. They also
+                    Suggest fruits for snacks instead of junk food..and they show importace towards games and physical
+                    activities."</p>
+            </div>
+
+            <!-- Review 8 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #E91E63; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        S</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Shama Parveen</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 3 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"The best school in guntur. The reasons are:
+                    1. It feels like home and as parents we feel safe leaving our kid here. They take very good care of
+                    kids."</p>
+            </div>
+
+            <!-- Review 9 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #FF9800; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        A</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Anita Reddy</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 4 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"It's the best school where every kid is given
+                    special care and support undoubtedly... and it resembles home to our kids . As a parent we think and
+                    search for best and caring staff when we are introducing our kid to a school environment."</p>
+            </div>
+
+            <!-- Review 10 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #00BCD4; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        K</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Kolisetty Sreeja</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 3 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"My daughter LOVE this school – from the
+                    teachers to the students to the curriculum. Little Steps integrates compassion into their teaching
+                    standards, emphasizes the importance of values through each of their classes and lessons."</p>
+            </div>
+
+            <!-- Review 11 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #607D8B; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        S</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Suhastha Teacher Consultancy</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 2 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"Little steps is Good and best school for the
+                    little ones, they care the students very well . They respond very fast. I strongly recommend this
+                    school. Management is working with passion."</p>
+            </div>
+
+            <!-- Review 12 -->
+            <div class="glass-card scroll-reveal"
+                style="padding: 25px; border-radius: 12px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div
+                        style="width: 45px; height: 45px; background: #9C27B0; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; font-weight: bold;">
+                        N</div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 1.05rem;">Neha Choudhary</h4>
+                        <div style="color: #fbbc04; font-size: 0.8rem; margin: 3px 0;">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i>
+                            <span style="color: #666; font-size: 0.8rem;"> &nbsp; 3 years ago</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.95rem; color: #444; flex-grow: 1;">"One of the best preschool available in
+                    Guntur. I have visited here once with one of my friend's child. The kid was not ready to leave the
+                    premises and was engaged in the play area. More activities and events we can in this school."</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

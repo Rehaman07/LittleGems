@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - Little Steps{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with badge="Get In Touch" title="We'd Love to Hear From You" description="Have questions about admissions or school activities? Send us an enquiry below or visit our campus." %}
+
+<section class="section section-contact-below" style="margin: 0 auto; max-width: 600px; text-align: center; padding: 20px;">
+    <div class="container contact-split">
+        <div class="glass-panel glass-panel">
+            <h3 class="contact-panel-title">School Contact</h3>
+        <div class="contact-info-block1">
+    <div class="icon">
+        <i class="fa-solid fa-map-location-dot"></i>
+    </div>
+    <div class="content">
+        <h4>Campus Address</h4>
+        <p>Navabharat Nagar, Guntur<br>Andhra Pradesh 522006</p>
+    </div>
+</div>
+
+<div class="contact-info-block1">
+    <div class="icon">
+        <i class="fa-solid fa-phone"></i>
+    </div>
+    <div class="content">
+        <h4>Call Us</h4>
+        <p>+91 70326 91555</p>
+    </div>
+</div>
+        </div>
+
+        <div class="glass-panel glass-panel--padded">
+            <h3 class="contact-panel-title">Send an Enquiry</h3>
+            <form action="{% url 'contact' %}" method="POST" class="contact-form-stack">
+                {% csrf_token %}
+                <input type="text" name="name" required placeholder="Your Full Name" autocomplete="name">
+                <input type="email" name="email" required placeholder="Email Address" autocomplete="email">
+                <input type="tel" name="phone" required placeholder="Phone Number" autocomplete="tel">
+                <textarea name="message" required placeholder="How can we help you?" rows="5"></textarea>
+                                <div class="form-submit-bar">
+                    <button type="submit" class="btn btn-secondary btn-lg" onclick="sendToWhatsApp()">
+                        Send Message <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                    <br><p class="form-trust-note"><br>
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i> 
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script id="94721">
+function sendToWhatsApp() {
+    // Get values
+    let name = document.querySelector('input[name="name"]').value;
+    let email = document.querySelector('input[name="email"]').value;
+    let phone = document.querySelector('input[name="phone"]').value;
+    let message = document.querySelector('textarea[name="message"]').value;
+
+    // Validate
+    if (!name || !email || !phone || !message) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    // Format message
+    let whatsappMessage = 
+`📩 *New Enquiry - Little Steps School*
+
+👤 *Name:* ${name}
+📧 *Email:* ${email}
+📞 *Phone:* ${phone}
+
+💬 *Message:*
+${message}`;
+
+    // Encode for URL
+    let encodedMessage = encodeURIComponent(whatsappMessage);
+
+    // Your WhatsApp number (replace if needed)
+    let phoneNumber = "917032691555";
+
+    // Redirect to WhatsApp
+    let url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(url, '_blank');
+}
+</script>
+{% endblock %}

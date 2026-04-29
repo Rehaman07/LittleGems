@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}My Notifications - Little Steps{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with variant="sage" title="My Notifications" %}
+
+<section class="section notifications-page">
+    <div class="container container--notifications">
+        <div class="notifications-toolbar">
+            <form action="{% url 'mark_all_notifications_read' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">Mark all as read</button>
+            </form>
+        </div>
+
+        <div class="notifications-list-ui">
+            {% for notification in notifications %}
+            <div class="notification-row {% if not notification.is_read %}notification-row--unread{% endif %}">
+                <div class="notification-row__icon" aria-hidden="true">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <div class="notification-row__body">
+                    <h3>{{ notification.title }}</h3>
+                    <p>{{ notification.message }}</p>
+                    <small>{{ notification.created_at|date:"M d, Y H:i" }}</small>
+                </div>
+                {% if not notification.is_read %}
+                <form action="{% url 'mark_notification_read' notification.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="notification-mark-read" title="Mark as read" aria-label="Mark as read">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="notifications-empty">
+                <i class="fa-solid fa-bell-slash" aria-hidden="true"></i>
+                <p>No notifications yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

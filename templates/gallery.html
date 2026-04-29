@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Photo Gallery - Little Steps{% endblock %}
+
+{% block content %}
+<section class="section bg-light page-hero-spaced">
+    <div class="container">
+        <div class="section-header center">
+            <span class="section-badge">Gallery</span>
+            <h2 class="section-title">Our Happy Moments</h2>
+            <p class="section-desc">Explore the joyful activities and events at Little Steps.</p>
+        </div>
+
+        {% for category in categories %}
+        <div class="gallery-category-block">
+            <h3>{{ category.name }}</h3>
+            <div class="programs-grid">
+                {% for image in category.images.all %}
+                <div class="glass-card image-card image-card--gallery js-lightbox-trigger" role="button" tabindex="0"
+                    data-fullsrc="{{ image.image.url }}"
+                    data-caption="{{ image.caption|default:'' }}">
+                    <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="gallery-thumb" loading="lazy">
+                    {% if image.caption %}
+                    <p class="gallery-caption">{{ image.caption }}</p>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No images in this category yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
+    <button type="button" class="lightbox-close" id="closeLightbox" aria-label="Close">&times;</button>
+    <img id="lightboxImg" src="" alt="" class="lightbox-content">
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+</div>
+
+<script>
+    const modal = document.getElementById('lightboxModal');
+    const modalImg = document.getElementById('lightboxImg');
+    const captionText = document.getElementById('lightboxCaption');
+
+    function openLightbox(imgSrc, caption) {
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        modalImg.src = imgSrc;
+        captionText.textContent = caption || '';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.js-lightbox-trigger').forEach((el) => {
+        const go = () => openLightbox(el.dataset.fullsrc, el.dataset.caption || '');
+        el.addEventListener('click', go);
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+        });
+    });
+
+    document.getElementById('closeLightbox').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+</script>
+{% endblock %}

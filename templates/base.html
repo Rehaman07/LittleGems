@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Little Steps International Pre School - A safe, nurturing, and development-focused start for young children in Guntur. Joyful learning, experienced teachers, and world-class early education.">
+    <title>{% block title %}Little Steps International Pre School{% endblock %}</title>
+
+    <!-- Google Fonts: Rubik (headings) and Open Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/homework.css' %}">
+    <style>
+        /* Glassmorphism Popup Styles */
+        .glass-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .glass-popup {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+            animation: popupIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .glass-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #333;
+            transition: background 0.2s;
+        }
+
+        .glass-popup-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-popup h2 {
+            margin-bottom: 20px;
+            color: var(--sage-dark);
+            font-size: 1.8rem;
+        }
+
+        .glass-popup p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .glass-popup .btn {
+            padding: 12px 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container navbar-container">
+            <a href="{% url 'home' %}" class="brand-logo">
+                <img src="{% static 'img/logo.png' %}" alt="Little Steps Logo" class="brand-logo-img">
+                <span class="logo-text">Little Steps</span>
+            </a>
+
+            <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+                <a href="{% url 'home' %}">Home</a>
+
+                <div class="nav-dropdown" id="mainMenuDropdown">
+                    <button type="button" class="nav-dropdown__trigger" id="mainMenuTrigger" aria-expanded="false"
+                        aria-controls="mainMenuMenu">
+                        Menu <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown__menu" id="mainMenuMenu" role="menu" aria-label="Main menu">
+                        <a href="{% url 'about' %}" role="menuitem">About</a>
+                        <a href="{% url 'gallery' %}" role="menuitem">Gallery</a>
+                        <a href="{% url 'events' %}" role="menuitem">Events</a>
+                        <a href="{% url 'updates' %}" role="menuitem">Updates</a>
+                        <a href="{% url 'notice_list' %}" role="menuitem">Notices</a>
+                        <a href="{% url 'contact' %}" role="menuitem">Contact</a>
+                        <a href="{% url 'admissions' %}" role="menuitem">Admissions</a>
+                    </div>
+                </div>
+
+                <div class="nav-auth-mobile">
+                    {% if user.is_authenticated %}
+                    {% if unread_notifications_count %}
+                    <a href="{% url 'notification_list' %}" class="btn btn-outline btn-sm nav-drawer-notify">
+                        <i class="fa-solid fa-bell"></i> Notifications ({{ unread_notifications_count }})
+                    </a>
+                    {% else %}
+                    <a href="{% url 'notification_list' %}" class="btn btn-outline btn-sm nav-drawer-notify">
+                        <i class="fa-solid fa-bell"></i> Notifications
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="btn btn-outline btn-sm">Logout</a>
+                    {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Register</a>
+                    {% endif %}
+                </div>
+            </nav>
+
+            <div class="navbar-end">
+                <div class="nav-actions-mobile">
+                    <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false"
+                        aria-controls="navLinks" aria-label="Open menu">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="nav-actions-desktop">
+                    {% if user.is_authenticated %}
+                    <div class="notification-wrapper">
+                        <button type="button" class="notification-trigger" id="notificationBell"
+                            aria-expanded="false" aria-controls="notificationDropdown" aria-label="Notifications">
+                            <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                            {% if unread_notifications_count %}
+                            <span class="notification-badge">{{ unread_notifications_count }}</span>
+                            {% endif %}
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown" role="region"
+                            aria-label="Notification list">
+                            <div class="dropdown-header">
+                                <span>Notifications</span>
+                                <a href="#" id="markAllRead">Mark all as read</a>
+                            </div>
+                            <div class="dropdown-list">
+                                {% for notification in latest_notifications %}
+                                <a href="{% url 'notification_list' %}"
+                                    class="dropdown-item {% if not notification.is_read %}unread{% endif %}">
+                                    <strong>{{ notification.title }}</strong>
+                                    <p>{{ notification.message }}</p>
+                                    <small>{{ notification.created_at|timesince }} ago</small>
+                                </a>
+                                {% empty %}
+                                <div class="dropdown-item dropdown-item-static">No notifications</div>
+                                {% endfor %}
+                            </div>
+                            <div class="dropdown-footer">
+                                <a href="{% url 'notification_list' %}">View all</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile-dropdown">
+                        <span class="user-name">Hi, {{ user.first_name|default:user.username }}</span>
+                        <a href="{% url 'logout' %}" class="logout-link" aria-label="Log out"><i
+                                class="fa-solid fa-sign-out-alt" aria-hidden="true"></i></a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="login-btn">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                    {% endif %}
+                    <a href="{% url 'admissions' %}" class="btn btn-nav-highlight btn-nav">Admissions</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% if messages %}
+        <div class="container page-messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer" id="contact">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h3 class="footer-title">Little Steps International Pre School</h3>
+                <p>Nurturing young minds with globally vetted teaching methods. Trust us to give your child a joyful,
+                    confident start.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4 class="footer-subtitle">Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'gallery' %}">Campus Gallery</a></li>
+                    <li><a href="{% url 'events' %}">Events</a></li>
+                    <li><a href="{% url 'notice_list' %}">Notice Board</a></li>
+                    <li><a href="{% url 'admissions' %}">Admissions Process</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'admin' %}">Admin</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4 class="footer-subtitle">Contact Us</h4>
+                <ul>
+                    <li><i class="fa-solid fa-map-location-dot"></i> Navabharat Nagar, Guntur</li>
+                    <li><i class="fa-solid fa-phone"></i> +91 98765 43210, +91 70326 91555</li>
+                    <li><i class="fa-solid fa-envelope"></i> littlestepsips@gmail.com</li>
+                    <li><i class="fa-solid fa-clock"></i> Mon–Sat: 9:00 AM – 7:00 PM</li>
+                </ul>
+            </div>
+
+            <div class="footer-cta">
+                <h4 class="footer-subtitle">Subscribe to Updates</h4>
+                <form class="contact-form" action="#" method="POST"
+                    onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                    <input type="email" placeholder="Email Address" required>
+                    <button type="submit" class="btn btn-secondary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Rehaman Freelance Services. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const bell = document.getElementById('notificationBell');
+        const dropdown = document.getElementById('notificationDropdown');
+        const markAllReadBtn = document.getElementById('markAllRead');
+        const menuDropdown = document.getElementById('mainMenuDropdown');
+        const menuTrigger = document.getElementById('mainMenuTrigger');
+
+        const closeMobileMenu = () => {
+            if (!navLinks || !mobileMenuBtn) return;
+            navLinks.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            mobileMenuBtn.setAttribute('aria-label', 'Open menu');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        };
+
+        const setMenuOpen = (open) => {
+            if (!menuDropdown || !menuTrigger) return;
+            menuDropdown.classList.toggle('active', open);
+            menuTrigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+
+        const toggleMobileMenu = () => {
+            if (!navLinks || !mobileMenuBtn) return;
+            const opening = !navLinks.classList.contains('active');
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+            mobileMenuBtn.setAttribute('aria-label', opening ? 'Close menu' : 'Open menu');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        };
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+        }
+
+        if (navLinks) {
+            navLinks.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    if (menuDropdown && menuDropdown.contains(link)) {
+                        setMenuOpen(false);
+                    }
+                    if (window.matchMedia('(max-width: 992px)').matches) closeMobileMenu();
+                });
+            });
+        }
+
+        if (menuTrigger) {
+            menuTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const open = !menuDropdown.classList.contains('active');
+                setMenuOpen(open);
+            });
+        }
+
+        if (bell && dropdown) {
+            bell.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const open = !dropdown.classList.contains('active');
+                dropdown.classList.toggle('active', open);
+                bell.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            dropdown.addEventListener('click', (e) => e.stopPropagation());
+        }
+
+        document.addEventListener('click', (e) => {
+            if (navLinks && mobileMenuBtn && !navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+            if (dropdown && bell && !dropdown.contains(e.target) && !bell.contains(e.target)) {
+                dropdown.classList.remove('active');
+                bell.setAttribute('aria-expanded', 'false');
+            }
+            if (menuDropdown && menuTrigger && !menuDropdown.contains(e.target) && !menuTrigger.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+
+        if (markAllReadBtn) {
+            markAllReadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                fetch("{% url 'mark_all_notifications_read' %}", {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}', 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            location.reload();
+                        }
+                    });
+            });
+        }
+
+    {% if popup_notice %}
+        document.addEventListener('DOMContentLoaded', () => {
+            const popupOverlay = document.getElementById('glassPopupOverlay');
+            const closeBtn = document.getElementById('closeGlassPopup');
+            const confirmBtn = document.getElementById('confirmGlassPopup');
+            const popupId = "popup_" + "{{ popup_notice.id }}";
+
+            if (popupOverlay) {
+                const closePopup = () => {
+                    popupOverlay.style.display = 'none';
+                    sessionStorage.setItem(popupId, 'true');
+                };
+
+                if (!sessionStorage.getItem(popupId)) {
+                    setTimeout(() => {
+                        popupOverlay.style.display = 'flex';
+                    }, 500);
+                }
+
+                if (closeBtn) closeBtn.addEventListener('click', closePopup);
+                if (confirmBtn) confirmBtn.addEventListener('click', closePopup);
+
+                popupOverlay.addEventListener('click', (e) => {
+                    if (e.target === popupOverlay) closePopup();
+                });
+            }
+        });
+        {% endif %}
+    </script>
+
+    {# ──────────────────────────────────────────────────────────────
+       Homework Floating Widget  (only for logged-in users)
+    ─────────────────────────────────────────────────────────────── #}
+    {% if user.is_authenticated %}
+    <!-- Floating Button -->
+    <button id="hw-float-btn" aria-label="Open Homework" title="My Homework">
+        <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+        <span id="hw-badge"></span>
+    </button>
+
+    <!-- Modal Overlay -->
+    <div id="hw-overlay" role="dialog" aria-modal="true" aria-labelledby="hw-panel-title">
+        <div id="hw-panel">
+            <!-- Header -->
+            <div id="hw-panel-header">
+                <h2 id="hw-panel-title">
+                    <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                    Homework
+                </h2>
+                <span id="hw-class-label" title="Your Class">Loading...</span>
+                <button id="hw-close-btn" aria-label="Close homework panel">
+                    <i class="fa-solid fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div id="hw-list-container">
+                <div id="hw-status-msg">
+                    <div class="hw-spinner"></div>
+                    <p>Fetching homework...</p>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div id="hw-panel-footer">
+                Little Steps International Pre School &mdash; Homework Board
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        const floatBtn   = document.getElementById('hw-float-btn');
+        const overlay    = document.getElementById('hw-overlay');
+        const closeBtn   = document.getElementById('hw-close-btn');
+        const container  = document.getElementById('hw-list-container');
+        const badge      = document.getElementById('hw-badge');
+        const classLabel = document.getElementById('hw-class-label');
+
+        let dataCache    = null;          // cache fetched homework
+        let isDragging   = false;
+        let dragOffX     = 0, dragOffY = 0;
+        let movedDuringDrag = false;
+
+        /* ──────────────────────────────────
+           DRAGGABLE FLOAT BUTTON
+        ─────────────────────────────────── */
+        function startDrag(clientX, clientY) {
+            const rect = floatBtn.getBoundingClientRect();
+            dragOffX = clientX - rect.left;
+            dragOffY = clientY - rect.top;
+            isDragging = true;
+            movedDuringDrag = false;
+            floatBtn.style.transition = 'none';
+            floatBtn.style.animation  = 'none';
+        }
+
+        function moveDrag(clientX, clientY) {
+            if (!isDragging) return;
+            movedDuringDrag = true;
+            const x = clientX - dragOffX;
+            const y = clientY - dragOffY;
+            // Clamp within viewport
+            const maxX = window.innerWidth  - floatBtn.offsetWidth;
+            const maxY = window.innerHeight - floatBtn.offsetHeight;
+            floatBtn.style.left   = Math.max(0, Math.min(x, maxX)) + 'px';
+            floatBtn.style.top    = Math.max(0, Math.min(y, maxY)) + 'px';
+            floatBtn.style.right  = 'auto';
+            floatBtn.style.bottom = 'auto';
+        }
+
+        function endDrag() {
+            isDragging = false;
+            floatBtn.style.transition = '';
+        }
+
+        // Mouse
+        floatBtn.addEventListener('mousedown',  (e) => { e.preventDefault(); startDrag(e.clientX, e.clientY); });
+        document.addEventListener('mousemove',  (e) => moveDrag(e.clientX, e.clientY));
+        document.addEventListener('mouseup',    ()  => endDrag());
+
+        // Touch
+        floatBtn.addEventListener('touchstart', (e) => { startDrag(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+        document.addEventListener('touchmove',  (e) => { if (isDragging) { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
+        document.addEventListener('touchend',   ()  => endDrag());
+
+        /* ──────────────────────────────────
+           OPEN / CLOSE MODAL
+        ─────────────────────────────────── */
+        function openPanel() {
+            overlay.classList.add('hw-visible');
+            document.body.style.overflow = 'hidden';
+            if (!dataCache) fetchHomework();
+        }
+
+        function closePanel() {
+            overlay.classList.remove('hw-visible');
+            document.body.style.overflow = '';
+        }
+
+        floatBtn.addEventListener('click', (e) => {
+            if (!movedDuringDrag) openPanel();
+        });
+
+        closeBtn.addEventListener('click', closePanel);
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closePanel();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePanel();
+        });
+
+        /* ──────────────────────────────────
+           FETCH HOMEWORK
+        ─────────────────────────────────── */
+        function fetchHomework() {
+            showLoading();
+            fetch("{% url 'homework_api' %}", {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(r => {
+                if (!r.ok) throw new Error('Network error');
+                return r.json();
+            })
+            .then(data => {
+                dataCache = data;
+                renderHomework(data);
+            })
+            .catch(() => showError());
+        }
+
+        /* ──────────────────────────────────
+           RENDER
+        ─────────────────────────────────── */
+        function showLoading() {
+            container.innerHTML = '<div id="hw-status-msg"><div class="hw-spinner"></div><p>Fetching homework...</p></div>';
+        }
+
+        function showError() {
+            container.innerHTML = '<div id="hw-status-msg"><i class="fa-solid fa-triangle-exclamation"></i><p>Could not load homework. Please try again.</p></div>';
+        }
+
+        function renderHomework(data) {
+            // Class label
+            classLabel.textContent = data.class_name ? data.class_name : 'No Class';
+
+            if (data.message) {
+                container.innerHTML = `<div id="hw-status-msg"><i class="fa-solid fa-info-circle"></i><p>${escHtml(data.message)}</p></div>`;
+                return;
+            }
+
+            const list = data.homework;
+
+            // Update badge
+            if (list.length > 0) {
+                badge.style.display = 'flex';
+                badge.textContent   = list.length > 9 ? '9+' : list.length;
+            } else {
+                badge.style.display = 'none';
+            }
+
+            if (list.length === 0) {
+                container.innerHTML = '<div id="hw-status-msg"><i class="fa-solid fa-check-circle" style="color:#6c63ff;opacity:0.6"></i><p>No homework right now. Enjoy your day! &#x1F389;</p></div>';
+                return;
+            }
+
+            let html = '';
+            list.forEach((hw, i) => {
+                const dueTag = hw.due_date
+                    ? hw.is_overdue
+                        ? `<span class="hw-meta-tag hw-tag-overdue"><i class="fa-solid fa-fire"></i> Overdue: ${escHtml(hw.due_date)}</span>`
+                        : `<span class="hw-meta-tag hw-tag-due"><i class="fa-regular fa-calendar-xmark"></i> Due: ${escHtml(hw.due_date)}</span>`
+                    : '';
+
+                html += `
+                <div class="hw-card">
+                  <div class="hw-card-inner">
+                    <div class="hw-card-title">
+                      <i class="fa-solid fa-circle-dot"></i>
+                      ${escHtml(hw.title)}
+                    </div>
+                    <div class="hw-card-desc">${escHtml(hw.description)}</div>
+                    <div class="hw-meta">
+                      <span class="hw-meta-tag hw-tag-assigned">
+                        <i class="fa-regular fa-calendar-check"></i> Assigned: ${escHtml(hw.date_assigned)}
+                      </span>
+                      ${dueTag}
+                    </div>
+                  </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function escHtml(str) {
+            const d = document.createElement('div');
+            d.appendChild(document.createTextNode(str));
+            return d.innerHTML;
+        }
+
+    })();
+    </script>
+    {% endif %}
+</body>
+
+</html>

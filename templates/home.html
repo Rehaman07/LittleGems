@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-image" style="background-image: url('{% static 'img/hero.png' %}');"></div>
+    <div class="container hero-content">
+        <h1 class="hero-title">Nurture Your Child’s Future with Joyful Learning</h1>
+        <p class="hero-subtitle">Safe, caring environment • Ages 2–6 • Enroll now</p>
+        <div class="hero-buttons">
+            <a href="{% url 'admissions' %}" class="btn btn-primary btn-lg">Admissions <i
+                    class="fa-solid fa-arrow-right"></i></a>
+            <a href="{% url 'about' %}" class="btn btn-outline btn-lg">Learn About Us</a>
+        </div>
+    </div>
+</section>
+
+<!-- Notice Board Section -->
+<section class="section notice-strip">
+    <div class="container">
+        <div class="notice-strip__inner">
+            <h3 class="notice-strip__title"><i class="fa-solid fa-bullhorn fa-shake" aria-hidden="true"></i> Notice Board</h3>
+            <div class="notice-strip__track">
+                {% if notices %}
+                <marquee behavior="scroll" direction="left" scrollamount="6">
+                    {% for notice in notices %}
+                    <span class="notice-strip__text">
+                        {% if notice.is_important %}
+                        <span class="notice-tag notice-tag--imp">IMPORTANT</span>
+                        {% else %}
+                        <span class="notice-tag notice-tag--new">NEW</span>
+                        {% endif %}
+                        <strong>{{ notice.title }}</strong>: {{ notice.message|truncatechars:150 }}
+                    </span>
+                    {% endfor %}
+                </marquee>
+                {% else %}
+                <p class="notice-strip__empty">No new notices at this time.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mini About Section -->
+<section class="about section" id="about">
+    <div class="container about-container">
+        <div class="about-text scroll-reveal">
+            <span class="section-badge">Welcome to Little Steps</span>
+            <h2 class="section-title">A Secure, Loving Atmosphere</h2>
+            <p class="section-desc">At Little Steps International Pre School, we believe every child is unique. Our
+                experienced teachers foster each child’s natural curiosity in a fun, stress-free environment.</p>
+            <a href="{% url 'about' %}" class="btn btn-secondary mt-3">Read More</a>
+        </div>
+        <div class="about-image-wrapper scroll-reveal" style="transition-delay: 200ms;">
+            <div class="glass-card image-card">
+                <img src="{% static 'img/about.png' %}" alt="Smiling preschool teacher with kids" class="about-img">
+                <div class="floating-badge badge-1">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Caring Environment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Updates Section -->
+<section class="programs section bg-light" id="updates">
+    <div class="container">
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge">Stay Connected</span>
+            <h2 class="section-title">What's Happening Locally</h2>
+            <p class="section-desc">Get a sneak peek into our school life with recent activities.</p>
+        </div>
+
+        <div class="update-preview-grid scroll-reveal">
+            {% for update in updates %}
+            <a href="{% url 'updates' %}" class="update-preview-card">
+                {% if update.image %}
+                <img src="{{ update.image.url }}" alt="" class="update-preview-card__img" loading="lazy">
+                {% endif %}
+                <div class="update-preview-card__body">
+                    <h4 class="update-preview-card__title">{{ update.title }}</h4>
+                    <span class="update-preview-card__date"><i class="fa-regular fa-calendar-alt" aria-hidden="true"></i> {{ update.date|date:"F j, Y" }}</span>
+                </div>
+            </a>
+            {% empty %}
+            <p>No recent activities posted.</p>
+            {% endfor %}
+        </div>
+
+        <div class="text-center section-cta">
+            <a href="{% url 'updates' %}" class="btn btn-outline btn-outline-sage">View All Activities <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- Dedicated Videos Section -->
+<section class="section bg-white" id="videos">
+    <div class="container">
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge section-badge--yt">Video Gallery</span>
+            <h2 class="section-title">Experience Our Campus <i class="fa-brands fa-youtube icon-youtube" aria-hidden="true"></i></h2>
+            <p class="section-desc">See our vibrant school life in action!</p>
+        </div>
+
+        <div class="video-grid scroll-reveal">
+            {% for video in videos %}
+            <div class="video-card">
+                <div class="ratio-16x9">
+                    <iframe src="{{ video.get_embed_url }}" title="{{ video.title }}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="video-card__caption">
+                    <h4>{{ video.title }}</h4>
+                </div>
+            </div>
+            {% empty %}
+            <div class="video-empty">
+                <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+                <p>No featured videos available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Programs Section -->
+<section class="programs section bg-light" id="programs">
+    <div class="container">
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge">Our Curriculum</span>
+            <h2 class="section-title">Programs Designed for Early Success</h2>
+            <p class="section-desc">We use globally vetted teaching methods combined with a child-centric approach to
+                guide each child's curiosity.</p>
+        </div>
+
+        <div class="programs-grid">
+            <!-- Program 1 -->
+            <div class="program-card scroll-reveal">
+                <div class="program-img-wrap">
+                    <img src="{% static 'img/colors.png' %}" alt="Playgroup Art" class="program-img">
+                    <div class="program-age">Ages 2-3</div>
+                </div>
+                <div class="program-content">
+                    <h3><i class="fa-solid fa-palette text-accent"></i> Early Years</h3>
+                    <p>Focus on playful learning basics like colors, shapes, literacy, and numeracy through stress-free
+                        games.</p>
+                    <a href="#contact" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Program 2 -->
+            <div class="program-card scroll-reveal" style="transition-delay: 100ms;">
+                <div class="program-img-wrap">
+                    <img src="{% static 'img/kindergarden.png' %}" alt="Nursery Classroom" class="program-img">
+                    <div class="program-age">Ages 3-6</div>
+                </div>
+                <div class="program-content">
+                    <h3><i class="fa-solid fa-book-open text-accent"></i> Nursery & Kindergarten</h3>
+                    <p>Structured academics seamlessly combined with creative arts, group activities, and interactive
+                        materials.</p>
+                    <a href="#contact" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Program 3 -->
+            <div class="program-card scroll-reveal" style="transition-delay: 200ms;">
+                <div class="program-img-wrap">
+                    <img src="{% static 'img/cocurricular.png' %}" alt="Field trip" class="program-img">
+                    <div class="program-age">All Ages</div>
+                </div>
+                <div class="program-content">
+                    <h3><i class="fa-solid fa-bus text-accent"></i> Co-Curricular & Excursions</h3>
+                    <p>A balanced blend of academics and creativity with fun-filled excursions, music, dance, and
+                        outdoor games.</p>
+                    <a href="#contact" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Program 4 -->
+            <div class="program-card scroll-reveal" style="transition-delay: 300ms;">
+                <div class="program-img-wrap">
+                    <img src="{% static 'img/daycare.png' %}" alt="Field trip" class="program-img">
+
+                    <div class="program-age">12pm - 6:30pm</div>
+                </div>
+                <div class="program-content">
+                    <h3><i class="fa-solid fa-clock text-accent"></i> On-Site Day Care</h3>
+                    <p>Flexible and secure day care available for enrolled children and others, supporting working
+                        parents.</p>
+                    <a href="#contact" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="events section" id="events">
+    <div class="container container-sm">
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge">Upcoming</span>
+            <h2 class="section-title">Events & Calendar</h2>
+        </div>
+        <div class="events-list">
+            {% for event in events %}
+            <div class="glass-panel event-row">
+                <div class="event-date bg-sage text-white text-center event-row__date">
+                    <span class="event-row__date-num">{{ event.date|date:"d" }}</span>
+                    <span>{{ event.date|date:"M" }}</span>
+                </div>
+                <div>
+                    <h4>{{ event.title }}</h4>
+                    <p class="event-row__meta"><i class="fa-solid fa-clock" aria-hidden="true"></i> {{ event.time|default:"TBD" }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No upcoming events scheduled.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Us Section -->
+<section class="features section" id="features">
+    <div class="container">
+        <div class="section-header center scroll-reveal">
+            <span class="section-badge">Why Choose Us</span>
+            <h2 class="section-title">Trusted by Guntur Families</h2>
+            <p class="section-desc">We combine the warmth of a small community school with world-class standard
+                education to nurture young minds.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-box glass-panel scroll-reveal">
+                <div class="feature-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <h4>Personalized Attention</h4>
+                <p>Small class sizes and experienced teachers ensure every child is guided at their own pace.</p>
+            </div>
+            <div class="feature-box glass-panel scroll-reveal">
+                <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h4>Safe & Caring</h4>
+                <p>A secure, loving atmosphere where physical, emotional, and social safety are top priorities.</p>
+            </div>
+            <div class="feature-box glass-panel scroll-reveal">
+                <div class="feature-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                <h4>World-Class Curriculum</h4>
+                <p>Holistic learning incorporating international-standard academics, arts, and practical play.</p>
+            </div>
+            <div class="feature-box glass-panel scroll-reveal">
+                <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+                <h4>Strong Moral Values</h4>
+                <p>We emphasize moral education and discipline, laying a strong foundation for future success.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials section bg-sage" id="testimonials">
+        <div class="container container-sm text-center scroll-reveal">
+            <div class="testimonial-heading-stars" aria-hidden="true">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <h2 class="section-title text-white testimonial-title-tight">Parents Trust Little Steps</h2>
+            <p class="testimonial-subtitle">Genuine Google Reviews from our wonderful parents.</p>
+
+            <div class="testimonial-slider">
+                <!-- Review 1 -->
+                <div class="testimonial-slide active">
+                    <p class="testimonial-text">"Best school in guntur. I strongly recommend for kids to join in little
+                        steps. They take care on each child with good education, moral ethics relations. My kid total
+                        changed in all aspects..."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#4285F4;">K</div>
+                        <div class="author-info">
+                            <strong>Khathija Begum</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"The best school in Guntur that every parent aspires to join their
+                        children. Every single concern will be resolved on spot. Every kid is taken special care about
+                        everything."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#EA4335;">H</div>
+                        <div class="author-info">
+                            <strong>Harika Reddy</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars (Local Guide)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"This is the best school for all kids. My grandson enjoys the school.
+                        The staff and management are friendly to our kids, they takes lot of care on them in all aspects
+                        like moral ethics, education..."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#34A853;">R</div>
+                        <div class="author-info">
+                            <strong>Rashidasyed Begum</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"Its best school in Guntur. I full satisfaction with this little steps,
+                        they are giving good education, activities, games, moral ethics etc. I strongly recommend for
+                        play school and higher standards."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#FBBC05;">S</div>
+                        <div class="author-info">
+                            <strong>Sabeera Mahaboob</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"One of the best schools in guntur, kids enjoy education without any
+                        stress, good transportation, caring attenders n staff, weekly outing, cultural activities... I
+                        ll suggest others to join for stressless education."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#8E24AA;">T</div>
+                        <div class="author-info">
+                            <strong>Thanvi</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">"Healthy atmosphere , Very good management, an awesome place for the
+                        kids to grow and learn. I recommend others to join their kids here. The teachers and staff are
+                        really good and dedicated..."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar" style="background:#0F9D58;">V</div>
+                        <div class="author-info">
+                            <strong>Vasudha Valluri</strong>
+                            <span><i class="fa-brands fa-google text-white"></i> 5 Stars</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple Testimonial Slider Script
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.testimonial-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlides() {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 6000); // Change image every 6 seconds
+        }
+
+        function currentSlide(n) {
+            slideIndex = n + 1;
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slides[slideIndex - 1].classList.add('active');
+            dots[slideIndex - 1].classList.add('active');
+        }
+
+        // Initialize Slider
+        if (slides.length > 0) {
+            setTimeout(showSlides, 6000);
+        }
+    </script>
+    {% endblock %}

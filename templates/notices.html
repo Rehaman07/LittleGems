@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Notice Board - Little Steps{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with variant="sage" title="Notice Board" description="Latest announcements from Little Steps International Pre School." %}
+
+<section class="section section-notices-body">
+    <div class="container">
+        <div class="notices-page-grid">
+            {% for notice in notices %}
+            <article class="notice-card-ui {% if notice.is_important %}notice-card-ui--important{% endif %}">
+                {% if notice.is_important %}
+                <span class="notice-pill">IMPORTANT</span>
+                {% endif %}
+                <h3>{{ notice.title }}</h3>
+                <p>{{ notice.message }}</p>
+                <footer>
+                    <span><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> {{ notice.created_at|date:"M d, Y" }}</span>
+                </footer>
+            </article>
+            {% empty %}
+            <p class="notices-empty-msg">No notices available at the moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

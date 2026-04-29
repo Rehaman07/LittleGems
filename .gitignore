@@ -1,0 +1,54 @@
+# ─────────────────────────────────────────────────────────────
+#  .gitignore for Little Steps Django Project
+#  Git will NOT track any of the files/folders listed below.
+# ─────────────────────────────────────────────────────────────
+
+# Environment variables — NEVER commit secrets to Git
+.env
+
+# SQLite database — contains real user data
+db.sqlite3
+
+# Python virtual environment
+venv/
+env/
+.venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Django collected static files
+staticfiles/
+
+# Media uploads (user-uploaded images)
+media/
+
+# IDE / editor folders
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Documentation build
+docs/_build/
+
+# Temporary files
+*.tmp
+*.bak

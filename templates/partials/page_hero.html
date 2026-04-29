@@ -1,0 +1,10 @@
+{# Shared inner-page header. Usage: {% include 'partials/page_hero.html' with badge="..." title="..." description="..." variant="gradient" %} #}
+<section class="page-hero page-hero--{{ variant|default:'gradient' }}">
+    <div class="container">
+        <div class="section-header center text-center">
+            {% if badge %}<span class="section-badge">{{ badge }}</span>{% endif %}
+            <h1 class="section-title page-hero__title">{{ title }}</h1>
+            {% if description %}<p class="section-desc page-hero__desc">{{ description }}</p>{% endif %}
+        </div>
+    </div>
+</section>

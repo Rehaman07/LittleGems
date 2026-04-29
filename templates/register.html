@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Little Steps{% endblock %}
+
+{% block content %}
+<section class="section auth-page">
+    <div class="container">
+        <div class="auth-card auth-card--wide">
+            <div class="glass-panel auth-card__panel">
+                <div class="auth-card__head">
+                    <div class="auth-card__icon auth-card__icon--mustard"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div>
+                    <h2>Create an Account</h2>
+                    <p>Manage your school activities easily</p>
+                </div>
+
+                <form method="POST" class="modern-form">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-error" role="alert">{{ form.non_field_errors.0 }}</div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <small class="field-error">{{ field.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        Create Account <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
+                    </button>
+                </form>
+
+                <div class="auth-card__footer">
+                    <p>Already have an account? <a href="{% url 'login' %}" class="link-mustard">Login here</a></p>
+                    <p class="auth-card__back"><a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Home</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

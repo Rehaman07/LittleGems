@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block admin panel from search engine indexing
+Disallow: /admin/
+
+# Sitemap (add this file if you create one)
+# Sitemap: https://yourdomain.com/sitemap.xml

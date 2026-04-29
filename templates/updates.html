@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Daily Updates - Little Steps{% endblock %}
+
+{% block content %}
+{% include 'partials/page_hero.html' with variant="light" title="Daily Activity Blog" description="Stay engaged with what your kids are doing every day!" %}
+
+<section class="section bg-light section-tight-top">
+    <div class="container">
+        <div class="updates-feed">
+            {% for update in updates %}
+            <article class="glass-card update-feed-card">
+                {% if update.image %}
+                <img src="{{ update.image.url }}" alt="{{ update.title }}">
+                {% endif %}
+                <div class="update-feed-card__body">
+                    <div class="update-feed-card__date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ update.date|date:"F j, Y" }}</div>
+                    <h3>{{ update.title }}</h3>
+                    <p>{{ update.content|linebreaksbr }}</p>
+                </div>
+            </article>
+            {% empty %}
+            <p class="updates-empty-msg">No daily updates posted yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

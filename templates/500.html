@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Server Error - Little Steps{% endblock %}
+
+{% block content %}
+<div class="container text-center" style="padding: 100px 20px;">
+    <h1 style="font-size: 4rem; color: #ff4d4d;">500</h1>
+    <h2>Internal Server Error</h2>
+    <p>Something went wrong on our end. Our technical team has been notified. Please try again later.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-4">Go Back to Home</a>
+</div>
+{% endblock %}
